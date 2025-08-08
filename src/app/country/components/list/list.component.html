@@ -1,0 +1,25 @@
+<section class="mt-3 ml-2">
+  <table class="table table-sm table-zebra">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (country of countries(); track country.cca2; let index = $index) {
+        <tr>
+          <th>{{ index + 1 }}</th>
+          <td>{{ country.flag }}</td>
+          <td><img [src]="country.flagSvg" [alt]="country.name" class="w-10"></td>
+          <td>{{ country.name }}</td>
+          <td>{{ country.capital }}</td>
+          <td><span class="badge badge-secondary">{{ country.population | number:'1.0-0' }}</span></td>
+          <td><a class="link-primary cursor-pointer">Más información</a></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
