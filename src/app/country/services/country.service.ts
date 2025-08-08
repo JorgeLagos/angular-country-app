@@ -28,4 +28,13 @@ export class CountryService {
     );
   }
 
+  public searchByCountry(query: string): Observable<Country[]> {
+    const lowerCaseQuery = query.toLowerCase();
+
+    return this.http.get<RestCountry[]>(`${API_URL}/name/${lowerCaseQuery}`).pipe(
+      map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
+      catchError(() => throwError(() => new Error(`No se encontró país con la capital buscada ${query}`)))
+    );
+  }
+
 }
