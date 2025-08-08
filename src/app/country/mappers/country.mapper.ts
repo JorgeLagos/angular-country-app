@@ -12,7 +12,7 @@ export class CountryMapper {
       capital: restCountry.capital.join(','),
       population: restCountry.population,
       region: restCountry.region,
-      subregion: restCountry.subregion
+      subregion: restCountry.subregion,
     }
   }
 

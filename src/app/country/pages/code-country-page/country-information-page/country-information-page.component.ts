@@ -10,6 +10,6 @@ import { DecimalPipe } from '@angular/common';
 export class CountryInformationPageComponent {
 
   public country = input.required<Country>();
-  public currentYear = computed(() => new Date().getFullYear())
+  public currentYear = computed(() => new Date().getFullYear());
 
 }

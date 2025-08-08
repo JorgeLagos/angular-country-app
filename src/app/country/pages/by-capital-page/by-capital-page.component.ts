@@ -21,7 +21,7 @@ export class ByCapitalPageComponent {
     request: () => ({ query: this.query() }),
     loader: ({ request }) => {
       if (!request.query) return of([]);
-      return this.countryService.searchByCapital(request.query)
+      return this.countryService.searchByCapital(request.query);
     },
   });
 
