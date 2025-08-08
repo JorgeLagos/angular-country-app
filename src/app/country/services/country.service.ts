@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
 
-import { map, Observable, catchError, throwError } from 'rxjs';
+import { map, Observable, catchError, throwError, delay } from 'rxjs';
 
 import { CountryMapper } from '../mappers/country.mapper';
 
@@ -24,6 +24,7 @@ export class CountryService {
 
     return this.http.get<RestCountry[]>(`${API_URL}/capital/${lowerCaseQuery}`).pipe(
       map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
+      delay(500),
       catchError(() => throwError(() => new Error(`No se encontró país con la capital buscada ${query}`)))
     );
   }
@@ -33,6 +34,7 @@ export class CountryService {
 
     return this.http.get<RestCountry[]>(`${API_URL}/name/${lowerCaseQuery}`).pipe(
       map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
+      delay(500),
       catchError(() => throwError(() => new Error(`No se encontró país con la capital buscada ${query}`)))
     );
   }

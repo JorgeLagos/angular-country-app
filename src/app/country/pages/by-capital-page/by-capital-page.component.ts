@@ -1,4 +1,4 @@
-import { Component, inject, resource, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
 
@@ -6,7 +6,6 @@ import { SearchComponent } from '../../components/search/search.component';
 import { ListComponent } from "../../components/list/list.component";
 
 import { CountryService } from '../../services/country.service';
-
 
 @Component({
   selector: 'app-by-capital-page',

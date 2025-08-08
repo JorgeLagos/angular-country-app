@@ -3,24 +3,58 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
+        <th>Icono</th>
+        <th>Bandera</th>
+        <th>Nombre</th>
+        <th>Capital</th>
+        <th>Población</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       @for (country of countries(); track country.cca2; let index = $index) {
-        <tr>
-          <th>{{ index + 1 }}</th>
-          <td>{{ country.flag }}</td>
-          <td><img [src]="country.flagSvg" [alt]="country.name" class="w-10"></td>
-          <td>{{ country.name }}</td>
-          <td>{{ country.capital }}</td>
-          <td><span class="badge badge-secondary">{{ country.population | number:'1.0-0' }}</span></td>
-          <td>
-            <a [routerLink]="['/country/by', country.cca2]" class="link-primary cursor-pointer">Más información</a>
-          </td>
-        </tr>
+      <tr>
+        <th>{{ index + 1 }}</th>
+        <td>{{ country.flag }}</td>
+        <td><img [src]="country.flagSvg" [alt]="country.name" class="w-10"></td>
+        <td>{{ country.name }}</td>
+        <td>{{ country.capital }}</td>
+        <td><span class="badge badge-secondary">{{ country.population | number:'1.0-0' }}</span></td>
+        <td>
+          <a [routerLink]="['/country/by', country.cca2]" class="link-primary cursor-pointer">Más información</a>
+        </td>
+      </tr>
+      }
+
+      @if (errorMessage()) {
+      <tr>
+        <td colspan="7">
+          <div role="alert" class="alert alert-error alert-soft">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        </td>
+      </tr>
+      }
+
+      @if (isLoading()) {
+      <tr>
+        <td colspan="7">
+          <div class="flex justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+              <path fill="#fffcfc"
+                d="M12,23a9.63,9.63,0,0,1-8-9.5,9.51,9.51,0,0,1,6.79-9.1A1.66,1.66,0,0,0,12,2.81h0a1.67,1.67,0,0,0-1.94-1.64A11,11,0,0,0,12,23Z">
+                <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate"
+                  values="0 12 12;360 12 12" />
+              </path>
+            </svg>
+          </div>
+        </td>
+      </tr>
       }
     </tbody>
   </table>
