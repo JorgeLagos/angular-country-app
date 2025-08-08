@@ -1,0 +1,22 @@
+
+
+<section class="flex justify-center stats shadow">
+  <div class="stat place-items-center">
+    <div class="stat-title">Nombre</div>
+    <div class="stat-value">{{ country().name }}</div>
+    <div class="stat-desc">{{ country().region }}, {{ country().subregion }}</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">Bandera</div>
+    <div class="stat-value text-8xl">{{ country().flag }}</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">Población</div>
+    <div class="stat-value text-secondary">{{ country().population | number }}</div>
+    <div class="stat-desc text-secondary">Desde {{ currentYear() }}</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">Subregión</div>
+    <div class="stat-value">{{ country().subregion }}</div>
+  </div>
+</section>

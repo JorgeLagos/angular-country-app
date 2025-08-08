@@ -35,7 +35,16 @@ export class CountryService {
     return this.http.get<RestCountry[]>(`${API_URL}/name/${lowerCaseQuery}`).pipe(
       map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
       delay(500),
-      catchError(() => throwError(() => new Error(`No se encontró país con la capital buscada ${query}`)))
+      catchError(() => throwError(() => new Error(`No se encontró país ${query}`)))
+    );
+  }
+
+  public searchCountryByAlphaCode(alphaCode: string): Observable<Country|undefined> {
+    return this.http.get<RestCountry[]>(`${API_URL}/alpha/${alphaCode}`).pipe(
+      map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
+      map((countries) => countries.at(0)),
+      delay(500),
+      catchError(() => throwError(() => new Error(`No se encontró país con ese codigo ${alphaCode}`)))
     );
   }
 
