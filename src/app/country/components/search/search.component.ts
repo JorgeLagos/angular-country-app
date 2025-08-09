@@ -1,5 +1,4 @@
-import { Component, effect, input, output, signal } from '@angular/core';
-import { timeout } from 'rxjs';
+import { Component, effect, input, linkedSignal, output } from '@angular/core';
 
 @Component({
   selector: 'country-search',
@@ -9,13 +8,14 @@ import { timeout } from 'rxjs';
 export class SearchComponent {
 
   public placeholder = input<string>('Buscar');
+  public initialValue = input<string>();
   public value = output<string>();
 
-  public inputValue = signal<string>('');
+  public inputValue = linkedSignal<string>(() => this.initialValue() ?? '');
 
   public dibounceEffect = effect((onCleanup) => {
     const value = this.inputValue();
-    const timeout = setTimeout(() => { this.value.emit(value) }, 500);
+    const timeout = setTimeout(() => { this.value.emit(value) }, 300);
 
     onCleanup(() => clearTimeout(timeout));
   });

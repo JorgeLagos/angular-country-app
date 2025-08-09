@@ -27,10 +27,6 @@ export class ByRegionPageComponent {
   public countryService = inject(CountryService);
   public selectedRegion = signal<Region | null>(null);
 
-  // public selectRegion(region: Region) {
-  //   this.selectedRegion.set(region);
-  // }
-
   public countryResource = rxResource({
     request: () => ({ region: this.selectedRegion() }),
     loader: ({ request }) => {
