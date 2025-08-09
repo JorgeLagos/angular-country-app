@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, linkedSignal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ListComponent } from '../../components/list/list.component';
 
@@ -25,12 +26,22 @@ export class ByRegionPageComponent {
   ];
 
   public countryService = inject(CountryService);
-  public selectedRegion = signal<Region | null>(null);
+
+  public activatedRoute = inject(ActivatedRoute);
+  public router = inject(Router);
+  public queryParam = (this.activatedRoute.snapshot.queryParamMap.get('region') ?? '') as Region;
+
+  public selectedRegion = linkedSignal<Region>(() => this.queryParam ?? 'Africa');
 
   public countryResource = rxResource({
     request: () => ({ region: this.selectedRegion() }),
     loader: ({ request }) => {
       if (!request.region) return of([]);
+
+      this.router.navigate(['/country/by-region'], {
+        queryParams: { region: request.region }
+      });
+
       return this.countryService.searchByRegion(request.region);
     },
   });
