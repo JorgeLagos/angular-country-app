@@ -9,6 +9,7 @@ import { CountryMapper } from '../mappers/country.mapper';
 
 import type { RestCountry } from '../interfaces/rest-countries/rest-countries.interface';
 import type { Country } from '../interfaces/country.interface';
+import type { Region } from '../types/region.type';
 
 const API_URL = `${environment.url}/${environment.version}`;
 
@@ -20,6 +21,7 @@ export class CountryService {
   private http = inject(HttpClient);
   private queryCacheCapital = new Map<string, Country[]>();
   private queryCacheCountry = new Map<string, Country[]>();
+  private queryCacheRegion = new Map<Region, Country[]>();
 
   public searchByCapital(query: string): Observable<Country[]> {
     const lowerCaseQuery = query.toLowerCase();
@@ -49,14 +51,26 @@ export class CountryService {
 
     return this.http.get<RestCountry[]>(`${API_URL}/name/${lowerCaseQuery}`).pipe(
       map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
-
       tap((countries) => this.queryCacheCountry.set(lowerCaseQuery, countries)),
       delay(500),
       catchError(() => throwError(() => new Error(`No se encontró país ${query}`)))
     );
   }
 
-  public searchCountryByAlphaCode(alphaCode: string): Observable<Country|undefined> {
+  public searchByRegion(region: Region): Observable<Country[]> {
+    if (this.queryCacheRegion.has(region)) {
+      return of(this.queryCacheRegion.get(region) ?? []);
+    }
+
+    return this.http.get<RestCountry[]>(`${API_URL}/region/${region}`).pipe(
+      map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
+      tap((countries) => this.queryCacheRegion.set(region, countries)),
+      delay(500),
+      catchError(() => throwError(() => new Error(`No se encontró país ${region}`)))
+    );
+  }
+
+  public searchCountryByAlphaCode(alphaCode: string): Observable<Country | undefined> {
     return this.http.get<RestCountry[]>(`${API_URL}/alpha/${alphaCode}`).pipe(
       map((restCountry) => CountryMapper.mapRestCountryArrayToCountryArray(restCountry)),
       map((countries) => countries.at(0)),
