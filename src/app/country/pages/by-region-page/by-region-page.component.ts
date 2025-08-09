@@ -9,6 +9,21 @@ import { CountryService } from '../../services/country.service';
 
 import type { Region } from '../../types/region.type';
 
+const validQueryParam = (queryParam: string): Region => {
+  queryParam = queryParam.toLowerCase();
+
+  const validRegions: Record<string, Region> = {
+    africa: 'Africa',
+    americas: 'Americas',
+    asia: 'Asia',
+    europe: 'Europe',
+    oceania: 'Oceania',
+    antarctic: 'Antarctic',
+  }
+
+  return validRegions[queryParam] ?? 'Africa';
+}
+
 @Component({
   selector: 'app-by-region-page',
   imports: [ListComponent],
@@ -29,9 +44,8 @@ export class ByRegionPageComponent {
 
   public activatedRoute = inject(ActivatedRoute);
   public router = inject(Router);
-  public queryParam = (this.activatedRoute.snapshot.queryParamMap.get('region') ?? '') as Region;
-
-  public selectedRegion = linkedSignal<Region>(() => this.queryParam ?? 'Africa');
+  public queryParam = this.activatedRoute.snapshot.queryParamMap.get('region') ?? '';
+  public selectedRegion = linkedSignal<Region>(() => validQueryParam(this.queryParam));
 
   public countryResource = rxResource({
     request: () => ({ region: this.selectedRegion() }),
